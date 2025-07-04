@@ -213,14 +213,6 @@ app.post('/api/mark-read', (req, res) => {
 });
 
 
-// Catch-all handler: send back React's index.html file for any non-API routes
-app.get('*', (req, res) => {
-  if (req.path.startsWith('/api/') || req.path.startsWith('/joseph')) {
-    res.status(404).json({ error: 'Not found' });
-  } else {
-    res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
-  }
-});
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
