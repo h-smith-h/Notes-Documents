@@ -13,10 +13,7 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Serve built React app
-app.use(express.static(path.join(__dirname, '..', 'dist')));
-
-// Joseph's interface routes (specific routes before static middleware)
+// Joseph's interface routes (specific routes first)
 app.get('/joseph/desktop', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -27,6 +24,9 @@ app.get('/joseph', (req, res) => {
 
 // Serve Joseph's static files
 app.use('/joseph', express.static(path.join(__dirname, 'public')));
+
+// Serve built React app (after Joseph routes)
+app.use(express.static(path.join(__dirname, '..', 'dist')));
 
 // Health check endpoint for Render
 app.get('/api/health', (req, res) => {
@@ -212,10 +212,6 @@ app.post('/api/mark-read', (req, res) => {
   );
 });
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
-});
 
 // Catch-all handler: send back React's index.html file for any non-API routes
 app.get('*', (req, res) => {
