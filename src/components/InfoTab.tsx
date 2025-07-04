@@ -22,23 +22,47 @@ const InfoTab: React.FC = () => {
         <div className="emoji-container">
           <div className="custom-missing-tooth-emoji">
             <svg width="80" height="80" viewBox="0 0 80 80" className="custom-emoji-svg">
-              {/* Face circle */}
-              <circle cx="40" cy="40" r="35" fill="#ffdc5d" stroke="#ffa500" strokeWidth="2"/>
+              {/* Face circle with gradient */}
+              <defs>
+                <radialGradient id="faceGradient" cx="0.3" cy="0.3">
+                  <stop offset="0%" stopColor="#ffed4e"/>
+                  <stop offset="70%" stopColor="#ffdc00"/>
+                  <stop offset="100%" stopColor="#f9c23c"/>
+                </radialGradient>
+                <radialGradient id="eyeGradient" cx="0.3" cy="0.3">
+                  <stop offset="0%" stopColor="#333"/>
+                  <stop offset="100%" stopColor="#000"/>
+                </radialGradient>
+              </defs>
+              
+              {/* Face */}
+              <circle cx="40" cy="40" r="32" fill="url(#faceGradient)" stroke="#e6ac00" strokeWidth="1.5"/>
               
               {/* Eyes */}
-              <circle cx="28" cy="32" r="4" fill="#000"/>
-              <circle cx="52" cy="32" r="4" fill="#000"/>
+              <ellipse cx="29" cy="30" rx="3.5" ry="5" fill="url(#eyeGradient)"/>
+              <ellipse cx="51" cy="30" rx="3.5" ry="5" fill="url(#eyeGradient)"/>
+              <ellipse cx="29.5" cy="28.5" rx="1" ry="1.5" fill="#fff" opacity="0.8"/>
+              <ellipse cx="51.5" cy="28.5" rx="1" ry="1.5" fill="#fff" opacity="0.8"/>
               
-              {/* Smile mouth */}
-              <path d="M 25 48 Q 40 62 55 48" stroke="#000" strokeWidth="3" fill="none" strokeLinecap="round"/>
+              {/* Smile mouth opening */}
+              <path d="M 26 46 Q 40 58 54 46 Q 40 54 26 46 Z" fill="#8b0000"/>
               
-              {/* Teeth */}
-              <rect x="35" y="48" width="3" height="6" fill="#fff" rx="1"/>
-              <rect x="39" y="48" width="3" height="6" fill="#fff" rx="1"/>
-              <rect x="43" y="48" width="3" height="6" fill="#fff" rx="1"/>
-              {/* Missing tooth gap on the left */}
-              <rect x="31" y="48" width="3" height="6" fill="transparent"/>
-              <rect x="47" y="48" width="3" height="6" fill="#fff" rx="1"/>
+              {/* Upper lip */}
+              <path d="M 26 46 Q 40 54 54 46" stroke="#000" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+              
+              {/* Teeth - positioned along the smile curve */}
+              <rect x="33" y="47" width="2.5" height="4" fill="#fffef7" rx="0.5" transform="rotate(-5 34 49)"/>
+              <rect x="36.5" y="46.5" width="2.5" height="4.5" fill="#fffef7" rx="0.5"/>
+              <rect x="40" y="46.2" width="2.5" height="5" fill="#fffef7" rx="0.5"/>
+              <rect x="43.5" y="46.5" width="2.5" height="4.5" fill="#fffef7" rx="0.5"/>
+              <rect x="47" y="47" width="2.5" height="4" fill="#fffef7" rx="0.5" transform="rotate(5 48 49)"/>
+              
+              {/* Missing tooth gap (left side) - just empty space */}
+              {/* The gap is at position 29.5-32.5 where no tooth is drawn */}
+              
+              {/* Subtle cheek blush */}
+              <ellipse cx="20" cy="42" rx="4" ry="3" fill="#ff9999" opacity="0.3"/>
+              <ellipse cx="60" cy="42" rx="4" ry="3" fill="#ff9999" opacity="0.3"/>
             </svg>
           </div>
         </div>
