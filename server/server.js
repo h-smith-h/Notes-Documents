@@ -16,17 +16,17 @@ app.use(express.json());
 // Serve built React app
 app.use(express.static(path.join(__dirname, '..', 'dist')));
 
-// Serve Joseph's mobile interface
-app.use('/joseph', express.static(path.join(__dirname, 'public')));
+// Joseph's interface routes (specific routes before static middleware)
+app.get('/joseph/desktop', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
-// Joseph's interface routes
 app.get('/joseph', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
 });
 
-app.get('/joseph/desktop', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// Serve Joseph's static files
+app.use('/joseph', express.static(path.join(__dirname, 'public')));
 
 // Health check endpoint for Render
 app.get('/api/health', (req, res) => {
@@ -50,10 +50,9 @@ db.serialize(() => {
   `);
 });
 
-// Email configuration for Tracfone Wireless
-// Note: This is a placeholder. The actual email-to-SMS gateway for Tracfone may vary.
+// Email configuration for Straight Talk SMS gateway
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // Use your preferred email service
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
