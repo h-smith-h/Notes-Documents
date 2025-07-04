@@ -3,9 +3,18 @@ services:
     name: hannah-messaging-app
     runtime: node
     plan: free
-    buildCommand: npm install && npm run build && cd server && npm install
+    region: oregon
+    buildCommand: |
+      echo "Installing root dependencies..."
+      npm install
+      echo "Building React app..."
+      npm run build
+      echo "Installing server dependencies..."
+      cd server && npm install
+      echo "Build completed successfully!"
     startCommand: cd server && node server.js
     healthCheckPath: /api/health
+    healthCheckTimeout: 10
     envVars:
       - key: NODE_ENV
         value: production
