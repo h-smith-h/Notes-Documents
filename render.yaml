@@ -4,26 +4,7 @@ services:
     runtime: node
     plan: free
     region: oregon
-    buildCommand: |
-      echo "Node version:"
-      node --version
-      echo "NPM version:"
-      npm --version
-      echo "Installing root dependencies..."
-      npm ci --include=dev
-      echo "Checking installed packages..."
-      ls -la node_modules/@types/ || echo "No @types found"
-      echo "Checking current directory structure:"
-      pwd && ls -la
-      echo "TypeScript version:"
-      npx tsc --version
-      echo "Building TypeScript..."
-      npx tsc -b --verbose
-      echo "Building with Vite..."
-      npx vite build
-      echo "Installing server dependencies..."
-      cd server && npm install
-      echo "Build completed successfully!"
+    buildCommand: npm ci --include=dev && npx tsc -b && npx vite build && cd server && npm install
     startCommand: cd server && node server.js
     healthCheckPath: /api/health
     healthCheckTimeout: 10
