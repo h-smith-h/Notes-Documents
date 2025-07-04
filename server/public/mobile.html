@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Message Hannah</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #9c27b0;
+            --primary-dark: #6a0080;
+            --primary-light: #d05ce3;
+            --secondary-color: #000000;
+            --text-color: #ffffff;
+            --background-color: #121212;
+            --card-background: #1e1e1e;
+            --border-color: #333333;
+            --error-color: #f44336;
+            --success-color: #4caf50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+        
+        .card {
+            background-color: var(--card-background);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .login-form, .message-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        
+        input, textarea, button {
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(156, 39, 176, 0.3);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: none;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .message-history {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-right: 5px;
+            max-height: 50vh;
+        }
+        
+        .message {
+            max-width: 85%;
+            padding: 15px;
+            border-radius: 18px;
+            position: relative;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .message.sent {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.received {
+            align-self: flex-start;
+            background-color: #2a2a2a;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-content {
+            word-break: break-word;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 8px;
+            text-align: right;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-buttons button {
+            flex: 1;
+        }
+        
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .logout-btn:hover {
+            background-color: rgba(156, 39, 176, 0.1);
+        }
+        
+        .send-btn {
+            background-color: var(--primary-color);
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            animation: shake 0.5s ease;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px 0;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Password modal */
+        .password-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="app-header">
+            <h1>Message Hannah</h1>
+            <div class="subtitle">Send a message directly to Hannah</div>
+        </div>
+        
+        <div class="card">
+            <div id="message-section">
+                <div class="message-history" id="message-history">
+                    <!-- Messages will be loaded here -->
+                </div>
+                
+                <form id="message-form" class="message-form">
+                    <div class="form-group">
+                        <textarea id="message-content" placeholder="Type your message to Hannah..." required></textarea>
+                    </div>
+                    <div class="action-buttons">
+                        <button type="submit" class="send-btn">Send Message</button>
+                        <button type="button" id="logout-btn" class="logout-btn">Logout</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Password Modal -->
+    <div id="password-modal" class="password-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Enter Password</h2>
+            <form id="password-form" class="login-form">
+                <div class="form-group">
+                    <input type="password" id="password-input" placeholder="Enter password" required>
+                    <div id="password-error" class="error-message hidden">Incorrect password. Please try again.</div>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const passwordModal = document.getElementById('password-modal');
+        const passwordForm = document.getElementById('password-form');
+        const passwordInput = document.getElementById('password-input');
+        const passwordError = document.getElementById('password-error');
+        const messageSection = document.getElementById('message-section');
+        const messageForm = document.getElementById('message-form');
+        const messageContent = document.getElementById('message-content');
+        const messageHistory = document.getElementById('message-history');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        // Constants
+        const CORRECT_PASSWORD = '4026';
+        
+        // Check if user is already authenticated
+        let isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+        
+        // Also check session storage for current session authentication
+        let sessionAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
+        
+        if (isAuthenticated || sessionAuthenticated) {
+            passwordModal.classList.add('hidden');
+            loadMessages();
+        }
+        
+        // Password form submission
+        passwordForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = passwordInput.value.trim();
+            
+            if (password === CORRECT_PASSWORD) {
+                // Store in both localStorage (persists across browser sessions) and sessionStorage (only for current session)
+                localStorage.setItem('isAuthenticated', 'true');
+                sessionStorage.setItem('isAuthenticated', 'true');
+                passwordModal.classList.add('hidden');
+                loadMessages();
+                passwordError.classList.add('hidden');
+            } else {
+                passwordError.classList.remove('hidden');
+                passwordInput.value = '';
+                passwordInput.focus();
+                
+                // Shake animation for incorrect password
+                passwordInput.style.borderColor = 'var(--error-color)';
+                setTimeout(() => {
+                    passwordInput.style.borderColor = '';
+                }, 1000);
+            }
+        });
+        
+        // Message form submission
+        messageForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const message = messageContent.value.trim();
+            
+            if (message) {
+                sendMessage(message);
+                messageContent.value = '';
+            }
+        });
+        
+        // Logout button
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('isAuthenticated');
+            sessionStorage.removeItem('isAuthenticated');
+            passwordModal.classList.remove('hidden');
+            passwordInput.value = '';
+            passwordError.classList.add('hidden');
+        });
+        
+        // Load messages from the server
+        function loadMessages() {
+            // Show loading state
+            if (messageHistory.children.length === 0) {
+                messageHistory.innerHTML = '<div class="loading">Loading messages...</div>';
+            }
+            
+            fetch('/api/messages')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayMessages(data.messages);
+                    } else {
+                        messageHistory.innerHTML = '<div class="empty-state">Could not load messages</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading messages:', error);
+                    messageHistory.innerHTML = '<div class="empty-state">Could not load messages</div>';
+                });
+        }
+        
+        // Send a message to the server
+        function sendMessage(message) {
+            // Optimistically add message to UI
+            const tempId = 'temp-' + Date.now();
+            const tempMessage = {
+                id: tempId,
+                content: message,
+                sender: 'Joseph',
+                recipient: 'Hannah',
+                timestamp: Date.now(),
+                read: 0
+            };
+            
+            addMessageToUI(tempMessage);
+            
+            // Send to server
+            fetch('/api/reply', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message,
+                    apiKey: CORRECT_PASSWORD
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    alert('Failed to send message: ' + data.message);
+                    // Remove the temporary message
+                    const tempElement = document.getElementById(tempId);
+                    if (tempElement) tempElement.remove();
+                }
+            })
+            .catch(error => {
+                console.error('Error sending message:', error);
+                alert('Error sending message. Please try again.');
+                // Remove the temporary message
+                const tempElement = document.getElementById(tempId);
+                if (tempElement) tempElement.remove();
+            });
+        }
+        
+        // Display all messages in the UI
+        function displayMessages(messages) {
+            if (messages.length === 0) {
+                messageHistory.innerHTML = '<div class="empty-state">No messages yet. Send one to start the conversation!</div>';
+                return;
+            }
+            
+            messageHistory.innerHTML = '';
+            messages.forEach(msg => {
+                addMessageToUI(msg);
+            });
+            
+            // Scroll to the bottom
+            messageHistory.scrollTop = messageHistory.scrollHeight;
+        }
+        
+        // Add a single message to the UI
+        function addMessageToUI(msg) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${msg.sender === 'Joseph' ? 'sent' : 'received'}`;
+            messageDiv.id = msg.id;
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.textContent = msg.content;
+            
+            const messageTime = document.createElement('div');
+            messageTime.className = 'message-time';
+            messageTime.textContent = formatTime(msg.timestamp);
+            
+            messageDiv.appendChild(messageContent);
+            messageDiv.appendChild(messageTime);
+            messageHistory.appendChild(messageDiv);
+            
+            // Scroll to the bottom
+            messageHistory.scrollTop = messageHistory.scrollHeight;
+        }
+        
+        // Format timestamp
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true
+            });
+        }
+        
+        // Poll for new messages every 5 seconds
+        setInterval(loadMessages, 5000);
+    </script>
+</body>
+</html>
