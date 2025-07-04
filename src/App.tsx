@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMessage, faAddressBook } from '@fortawesome/free-solid-svg-icons';
+import { faMessage, faAddressBook, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import './styles/main.scss';
 
 // Components
 import LoadingScreen from './components/LoadingScreen';
 import ContactList from './components/ContactList';
 import MessageList from './components/MessageList';
+import InfoTab from './components/InfoTab';
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'contacts' | 'messages'>('contacts');
+  const [activeTab, setActiveTab] = useState<'info' | 'contacts' | 'messages'>('info');
   const [selectedContact, setSelectedContact] = useState<string | null>(null);
 
   const handleLoadingComplete = () => {
@@ -40,6 +41,13 @@ function App() {
         {!selectedContact && (
           <div className="nav-tabs">
             <div 
+              className={`tab ${activeTab === 'info' ? 'active' : ''}`}
+              onClick={() => setActiveTab('info')}
+            >
+              <FontAwesomeIcon icon={faInfoCircle} className="icon" />
+              Info
+            </div>
+            <div 
               className={`tab ${activeTab === 'contacts' ? 'active' : ''}`}
               onClick={() => setActiveTab('contacts')}
             >
@@ -54,6 +62,10 @@ function App() {
               Messages
             </div>
           </div>
+        )}
+
+        {activeTab === 'info' && !selectedContact && (
+          <InfoTab />
         )}
 
         {activeTab === 'contacts' && !selectedContact && (
