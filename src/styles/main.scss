@@ -1,4 +1,5 @@
 @use 'sass:color';
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
 // Variables
 $primary-color: #9c27b0; // Purple
@@ -18,7 +19,7 @@ $border-color: #333333;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: $background-color;
   color: $text-color;
   min-height: 100vh;
@@ -40,36 +41,81 @@ body {
   z-index: 1000;
 }
 
-.snake-loader {
-  width: 200px;
-  height: 20px;
-  background-color: #222;
-  border-radius: 10px;
-  overflow: hidden;
+.snake-container {
   position: relative;
-  margin-bottom: 30px;
+  width: 300px;
+  height: 100px;
+  margin-bottom: 40px;
+}
+
+.snake-loader {
+  position: absolute;
+  width: 280px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
   
   &::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -50px;
-    width: 50px;
-    height: 20px;
-    background: linear-gradient(to right, $primary-dark, $primary-color, $primary-light);
-    border-radius: 10px;
-    animation: snake 2s infinite linear;
+    left: -60px;
+    width: 60px;
+    height: 12px;
+    border-radius: 6px;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+  }
+  
+  &.snake-1 {
+    top: 10px;
+    transform: rotate(0deg);
+    
+    &::before {
+      background: linear-gradient(90deg, $primary-dark, $primary-color, $primary-light);
+      animation: snake-move 3s infinite;
+      animation-delay: 0s;
+    }
+  }
+  
+  &.snake-2 {
+    top: 35px;
+    transform: rotate(180deg);
+    
+    &::before {
+      background: linear-gradient(90deg, $primary-light, $primary-color, $primary-dark);
+      animation: snake-move 3s infinite;
+      animation-delay: 1s;
+    }
+  }
+  
+  &.snake-3 {
+    top: 60px;
+    transform: rotate(0deg);
+    
+    &::before {
+      background: linear-gradient(90deg, #e91e63, $primary-color, #673ab7);
+      animation: snake-move 3s infinite;
+      animation-delay: 2s;
+    }
   }
 }
 
 .welcome-message {
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: 3rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
   color: $primary-color;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 1s ease forwards;
-  animation-delay: 7s;
+  text-align: center;
+  text-shadow: 0 0 20px rgba(156, 39, 176, 0.5);
+  letter-spacing: 1px;
+  background: linear-gradient(45deg, $primary-color, $primary-light, $primary-color);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow 3s ease-in-out infinite;
 }
 
 // Main UI
@@ -92,7 +138,18 @@ body {
   
   h1 {
     color: $primary-color;
-    font-size: 2rem;
+    font-size: 2.5rem;
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  
+  .version {
+    color: $primary-light;
+    font-size: 0.9rem;
+    font-weight: 300;
+    opacity: 0.8;
+    margin-left: 10px;
   }
 }
 
@@ -298,12 +355,29 @@ body {
 }
 
 // Animations
-@keyframes snake {
+@keyframes snake-move {
   0% {
-    left: -50px;
+    left: -60px;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
   }
   100% {
     left: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes gradient-flow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 

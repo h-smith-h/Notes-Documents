@@ -33,7 +33,8 @@ function App() {
 
       <div className="app-container">
         <header className="header">
-          <h1>Hannah's Messages</h1>
+          <h1>BDG Notes</h1>
+          <span className="version">v1.5</span>
         </header>
 
         {!selectedContact && (

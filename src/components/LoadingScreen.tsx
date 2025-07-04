@@ -35,16 +35,20 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="snake-loader"></div>
+          <div className="snake-container">
+            <div className="snake-loader snake-1"></div>
+            <div className="snake-loader snake-2"></div>
+            <div className="snake-loader snake-3"></div>
+          </div>
           
           <AnimatePresence>
             {showWelcome && (
               <motion.div 
                 className="welcome-message"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
               >
                 Welcome Hannah
               </motion.div>
