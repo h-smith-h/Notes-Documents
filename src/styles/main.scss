@@ -43,61 +43,62 @@ body {
 
 .snake-container {
   position: relative;
-  width: 300px;
-  height: 100px;
+  width: 320px;
+  height: 150px;
   margin-bottom: 40px;
 }
 
 .snake-loader {
   position: absolute;
-  width: 280px;
-  height: 12px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  overflow: hidden;
+  width: 300px;
+  height: 300px;
   
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: -60px;
-    width: 60px;
-    height: 12px;
-    border-radius: 6px;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: 
+      0 0 0 0 currentColor,
+      16px 0 0 0 currentColor,
+      32px 0 0 0 currentColor,
+      48px 0 0 0 currentColor,
+      64px 0 0 0 currentColor,
+      80px 0 0 0 currentColor,
+      96px 0 0 0 currentColor,
+      112px 0 0 0 currentColor;
   }
   
   &.snake-1 {
-    top: 10px;
-    transform: rotate(0deg);
+    top: 20px;
+    left: 10px;
+    color: $primary-color;
     
     &::before {
-      background: linear-gradient(90deg, $primary-dark, $primary-color, $primary-light);
-      animation: snake-move 3s infinite;
-      animation-delay: 0s;
+      animation: snake1-crawl 4s infinite ease-in-out;
     }
   }
   
   &.snake-2 {
-    top: 35px;
-    transform: rotate(180deg);
+    top: 60px;
+    left: 0px;
+    color: $primary-light;
     
     &::before {
-      background: linear-gradient(90deg, $primary-light, $primary-color, $primary-dark);
-      animation: snake-move 3s infinite;
-      animation-delay: 1s;
+      animation: snake2-crawl 4s infinite ease-in-out;
+      animation-delay: -1.3s;
     }
   }
   
   &.snake-3 {
-    top: 60px;
-    transform: rotate(0deg);
+    top: 100px;
+    left: 5px;
+    color: #e91e63;
     
     &::before {
-      background: linear-gradient(90deg, #e91e63, $primary-color, #673ab7);
-      animation: snake-move 3s infinite;
-      animation-delay: 2s;
+      animation: snake3-crawl 4s infinite ease-in-out;
+      animation-delay: -2.6s;
     }
   }
 }
@@ -355,21 +356,28 @@ body {
 }
 
 // Animations
-@keyframes snake-move {
-  0% {
-    left: -60px;
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    left: 100%;
-    opacity: 0;
-  }
+@keyframes snake1-crawl {
+  0% { transform: translateX(0px) translateY(0px); }
+  25% { transform: translateX(100px) translateY(-10px); }
+  50% { transform: translateX(200px) translateY(0px); }
+  75% { transform: translateX(150px) translateY(15px); }
+  100% { transform: translateX(0px) translateY(0px); }
+}
+
+@keyframes snake2-crawl {
+  0% { transform: translateX(0px) translateY(0px) rotate(0deg); }
+  25% { transform: translateX(120px) translateY(20px) rotate(45deg); }
+  50% { transform: translateX(180px) translateY(-5px) rotate(90deg); }
+  75% { transform: translateX(80px) translateY(-20px) rotate(135deg); }
+  100% { transform: translateX(0px) translateY(0px) rotate(180deg); }
+}
+
+@keyframes snake3-crawl {
+  0% { transform: translateX(0px) translateY(0px) scale(1); }
+  25% { transform: translateX(80px) translateY(-25px) scale(1.1); }
+  50% { transform: translateX(160px) translateY(10px) scale(0.9); }
+  75% { transform: translateX(200px) translateY(-15px) scale(1.05); }
+  100% { transform: translateX(0px) translateY(0px) scale(1); }
 }
 
 @keyframes gradient-flow {
@@ -401,10 +409,147 @@ body {
   }
 }
 
+// Info Tab Styles
+.info-container {
+  background-color: $card-background;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.personal-message {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), rgba(0, 0, 0, 0.3));
+  border-radius: 15px;
+  border: 1px solid rgba(156, 39, 176, 0.2);
+  
+  h2 {
+    color: $primary-color;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: $text-color;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 25px;
+  }
+}
+
+.emoji-container {
+  position: relative;
+  display: inline-block;
+  font-size: 3rem;
+  margin-top: 15px;
+  
+  .missing-tooth-emoji {
+    position: relative;
+    filter: brightness(1.1);
+  }
+  
+  .tooth-gap {
+    position: absolute;
+    top: 45%;
+    left: 35%;
+    width: 8px;
+    height: 8px;
+    background-color: $secondary-color;
+    border-radius: 2px;
+    z-index: 10;
+  }
+}
+
+.site-info {
+  h3 {
+    color: $primary-color;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    text-align: center;
+    
+    .icon {
+      margin-right: 10px;
+      color: $primary-light;
+    }
+  }
+}
+
+.info-section {
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: color.adjust($card-background, $lightness: 3%);
+  border-radius: 10px;
+  border-left: 4px solid $primary-color;
+  
+  h4 {
+    color: $primary-light;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+    
+    .icon {
+      margin-right: 8px;
+    }
+  }
+  
+  p {
+    color: $text-color;
+    opacity: 0.9;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+  
+  ul {
+    margin: 0;
+    padding-left: 20px;
+    color: $text-color;
+    opacity: 0.9;
+    
+    li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+      
+      strong {
+        color: $primary-light;
+      }
+    }
+  }
+}
+
+.footer-note {
+  text-align: center;
+  margin-top: 35px;
+  padding: 20px;
+  background: linear-gradient(45deg, rgba(156, 39, 176, 0.05), rgba(186, 104, 200, 0.05));
+  border-radius: 10px;
+  border: 1px solid rgba(156, 39, 176, 0.1);
+  
+  p {
+    color: $primary-light;
+    font-size: 1.05rem;
+    margin: 0;
+    
+    em {
+      font-style: italic;
+    }
+  }
+}
+
 // Responsive styles
 @media (max-width: 768px) {
   .nav-tabs {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
   }
   
   .messages-container {
@@ -413,6 +558,27 @@ body {
   
   .message {
     max-width: 85%;
+  }
+  
+  .info-container {
+    padding: 20px;
+    margin: 0 10px;
+  }
+  
+  .personal-message {
+    padding: 20px;
+    
+    h2 {
+      font-size: 1.7rem;
+    }
+    
+    p {
+      font-size: 1rem;
+    }
+  }
+  
+  .emoji-container {
+    font-size: 2.5rem;
   }
 }
 
@@ -424,5 +590,35 @@ body {
   
   .nav-tabs .tab {
     padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .info-container {
+    padding: 15px;
+    margin: 0 5px;
+  }
+  
+  .personal-message {
+    padding: 15px;
+    
+    h2 {
+      font-size: 1.5rem;
+    }
+    
+    p {
+      font-size: 0.95rem;
+    }
+  }
+  
+  .site-info h3 {
+    font-size: 1.5rem;
+  }
+  
+  .info-section {
+    padding: 15px;
+    
+    h4 {
+      font-size: 1.1rem;
+    }
   }
 }
