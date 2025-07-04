@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faLock, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faEyeSlash, faCog } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
 
 const InfoTab: React.FC = () => {
@@ -45,7 +45,7 @@ const InfoTab: React.FC = () => {
       </div>
 
       <div className="site-info">
-        <h3><FontAwesomeIcon icon={faHeart} className="icon" /> How BDG Notes Works</h3>
+        <h3><FontAwesomeIcon icon={faCog} className="icon" /> How BDG Notes Works</h3>
         
         <div className="info-section">
           <h4>📱 Messaging</h4>
@@ -72,7 +72,7 @@ const InfoTab: React.FC = () => {
         </div>
 
         <div className="footer-note">
-          <p><em>If you ever want to message me, this is the place. No pressure, just here if you need it. 💜</em></p>
+          <p><em>If you ever want to message me, this is the place. No pressure, just here if you need it.</em></p>
         </div>
       </div>
     </motion.div>
