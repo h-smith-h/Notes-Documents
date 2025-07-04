@@ -12,14 +12,23 @@ const PORT = process.env.PORT || 3001;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve mobile.html as the default page
-app.get('/', (req, res) => {
+// Serve built React app
+app.use(express.static(path.join(__dirname, '..', 'dist')));
+
+// Serve Joseph's mobile interface
+app.use('/joseph', express.static(path.join(__dirname, 'public')));
+
+// Joseph's interface routes
+app.get('/joseph', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
 });
 
-// Health check endpoint for Railway
+app.get('/joseph/desktop', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Health check endpoint for Render
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
@@ -61,11 +70,10 @@ app.post('/api/send-message', async (req, res) => {
     // The phone number is hidden from the frontend
     const phoneNumber = '8146610359';
     
-    // Format for Tracfone email-to-SMS gateway
-    // Note: You'll need to research the specific email-to-SMS gateway for Tracfone
+    // Format for Straight Talk email-to-SMS gateway
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: `${phoneNumber}@txt.att.net`, // This is a placeholder, research the correct gateway
+      to: `${phoneNumber}@vtext.com`, // Straight Talk SMS gateway
       subject: `New message from ${sender}`,
       text: message
     };
@@ -208,6 +216,15 @@ app.post('/api/mark-read', (req, res) => {
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
+});
+
+// Catch-all handler: send back React's index.html file for any non-API routes
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api/') || req.path.startsWith('/joseph')) {
+    res.status(404).json({ error: 'Not found' });
+  } else {
+    res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
+  }
 });
 
 app.listen(PORT, '0.0.0.0', () => {

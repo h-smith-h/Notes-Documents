@@ -26,7 +26,7 @@ const MessageList: React.FC<MessageListProps> = ({ contactId, onBack }) => {
   // Fetch messages
   const fetchMessages = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/messages');
+      const response = await fetch('/api/messages');
       const data = await response.json();
       
       if (data.success) {
@@ -47,7 +47,7 @@ const MessageList: React.FC<MessageListProps> = ({ contactId, onBack }) => {
     if (!newMessage.trim()) return;
     
     try {
-      const response = await fetch('http://localhost:3001/api/send-message', {
+      const response = await fetch('/api/send-message', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
