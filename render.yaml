@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: hannah-messaging-app
+    name: BDG-Notes
     runtime: node
     plan: free
     buildCommand: npm install && npm run build && cd server && npm install
