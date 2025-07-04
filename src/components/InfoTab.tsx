@@ -20,8 +20,27 @@ const InfoTab: React.FC = () => {
         </p>
         
         <div className="emoji-container">
-          <div className="missing-tooth-emoji">😊</div>
-          <div className="tooth-gap"></div>
+          <div className="custom-missing-tooth-emoji">
+            <svg width="80" height="80" viewBox="0 0 80 80" className="custom-emoji-svg">
+              {/* Face circle */}
+              <circle cx="40" cy="40" r="35" fill="#ffdc5d" stroke="#ffa500" strokeWidth="2"/>
+              
+              {/* Eyes */}
+              <circle cx="28" cy="32" r="4" fill="#000"/>
+              <circle cx="52" cy="32" r="4" fill="#000"/>
+              
+              {/* Smile mouth */}
+              <path d="M 25 48 Q 40 62 55 48" stroke="#000" strokeWidth="3" fill="none" strokeLinecap="round"/>
+              
+              {/* Teeth */}
+              <rect x="35" y="48" width="3" height="6" fill="#fff" rx="1"/>
+              <rect x="39" y="48" width="3" height="6" fill="#fff" rx="1"/>
+              <rect x="43" y="48" width="3" height="6" fill="#fff" rx="1"/>
+              {/* Missing tooth gap on the left */}
+              <rect x="31" y="48" width="3" height="6" fill="transparent"/>
+              <rect x="47" y="48" width="3" height="6" fill="#fff" rx="1"/>
+            </svg>
+          </div>
         </div>
       </div>
 
