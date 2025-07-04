@@ -11,15 +11,27 @@ A beautiful messaging application with a purple and black theme that allows Hann
 - Messages from Hannah are forwarded to Joseph's phone
 - Joseph can reply through a password-protected web interface (password: 4026)
 
-## Deployment Instructions for Railway
+## Deployment Instructions for Render.com
 
-1. Create a new project on [Railway](https://railway.app/)
+1. Create a new project on [Render](https://render.com/)
 2. Connect your GitHub repository
-3. Configure the following environment variables:
-   - `PORT`: 3000
-   - `EMAIL_USER`: Your email address for sending SMS notifications
-   - `EMAIL_PASS`: Your email app password
-   - `API_KEY`: 4026 (password for Joseph's interface)
+3. Render will automatically detect the `render.yaml` file and configure the service
+4. Configure the following environment variables in the Render dashboard:
+   - `EMAIL_USER`: Your email address for sending SMS notifications (e.g., your Gmail address)
+   - `EMAIL_PASS`: Your email app password (generate this from your email provider)
+   - `API_KEY`: 4026 (password for Joseph's interface - already set in render.yaml)
+   - `PORT`: Automatically managed by Render
+
+### Accessing the Deployed App
+
+Once deployed, you'll have access to:
+- **Hannah's Interface**: Your main domain (e.g., https://your-app.onrender.com)
+- **Joseph's Interface**: Your domain + `/joseph` (e.g., https://your-app.onrender.com/joseph)
+- **Joseph's Desktop Interface**: Your domain + `/joseph/desktop` (e.g., https://your-app.onrender.com/joseph/desktop)
+
+### Email Configuration for Straight Talk
+
+The app is configured to send SMS notifications via email-to-SMS gateway to Straight Talk numbers using `@vtext.com`. Make sure your email credentials are properly configured in the environment variables.
 
 ## Local Development
 
@@ -53,7 +65,7 @@ A beautiful messaging application with a purple and black theme that allows Hann
 
 5. Open your browser and navigate to:
    - Hannah's interface: http://localhost:5173
-   - Joseph's interface: http://localhost:3001
+   - Joseph's interface: http://localhost:3001/joseph
 
 ## Project Structure
 
@@ -74,7 +86,7 @@ A beautiful messaging application with a purple and black theme that allows Hann
 - Backend:
   - Express.js
   - SQLite for database
-  - Nodemailer for email-to-SMS gateway
+  - Nodemailer for email-to-SMS gateway (configured for Straight Talk)
 
 ## Mobile Optimization
 
