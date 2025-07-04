@@ -17,7 +17,7 @@ interface MessageListProps {
   onBack: () => void;
 }
 
-const MessageList: React.FC<MessageListProps> = ({ contactId, onBack }) => {
+const MessageList: React.FC<MessageListProps> = ({ onBack }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);

@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // Variables
 $primary-color: #9c27b0; // Purple
 $primary-dark: #7b1fa2;
@@ -110,7 +112,7 @@ body {
     gap: 10px;
     
     &:hover {
-      background-color: lighten($card-background, 5%);
+      background-color: color.adjust($card-background, $lightness: 5%);
     }
     
     &.active {
@@ -139,7 +141,7 @@ body {
     transition: all 0.3s ease;
     
     &:hover {
-      background-color: lighten($card-background, 5%);
+      background-color: color.adjust($card-background, $lightness: 5%);
     }
     
     .avatar {
@@ -164,7 +166,7 @@ body {
       }
       
       .last-message {
-        color: darken($text-color, 30%);
+        color: color.adjust($text-color, $lightness: -30%);
         font-size: 0.9rem;
       }
     }
@@ -237,13 +239,13 @@ body {
       
       &.received {
         align-self: flex-start;
-        background-color: lighten($card-background, 10%);
+        background-color: color.adjust($card-background, $lightness: 10%);
         border-bottom-left-radius: 5px;
       }
       
       .message-time {
         font-size: 0.7rem;
-        color: darken($text-color, 30%);
+        color: color.adjust($text-color, $lightness: -30%);
         margin-top: 5px;
         text-align: right;
       }
@@ -262,7 +264,7 @@ body {
       padding: 12px 15px;
       border-radius: 25px;
       border: none;
-      background-color: lighten($card-background, 10%);
+      background-color: color.adjust($card-background, $lightness: 10%);
       color: $text-color;
       
       &:focus {
